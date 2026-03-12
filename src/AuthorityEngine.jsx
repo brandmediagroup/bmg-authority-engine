@@ -1,17 +1,17 @@
 import { useState, useEffect, useReducer } from 'react'
 
 const SIGNALS = [
-  { id:1, day:'Monday', name:'DISCIPLINE', color:'#C9A24A', tagline:'Foundation of belief — structure over chaos.', behavior:'Research, planning, daily routines executed without shortcuts.', symbol:'Pen writing in a quiet workspace', phase:'Pre-production — research, script lock-in, project setup', principle:'Leaders who show up consistently earn trust before they earn attention.', outcome:'Projects launch on time with zero excuses.' },
-  { id:2, day:'Tuesday', name:'MOMENTUM', color:'#E8B84B', tagline:'Progress compounds through action.', behavior:'Rapid ideation, project starts, prototypes generated.', symbol:'Footsteps advancing forward', phase:'Concept development — storyboards, shot lists, creative direction locked', principle:'Momentum separates builders from dreamers.', outcome:'Concepts move from idea to direction within days, not weeks.' },
-  { id:3, day:'Wednesday', name:'CRAFT', color:'#B8962E', tagline:'Excellence through obsessive attention to detail.', behavior:'Production time, editing sessions, creative revisions. Every frame matters.', symbol:'Editing timeline on screen', phase:'Production — filming, editing, sound design, visual effects', principle:'Craft is the visible proof of invisible discipline.', outcome:'Deliverables exceed expectations because every detail is intentional.' },
-  { id:4, day:'Thursday', name:'CALM CONFIDENCE', color:'#C9A24A', tagline:'True authority moves with composure.', behavior:'Decision checkpoints, team collaboration, leadership under pressure.', symbol:'Steady breath — composed stillness', phase:'Direction and refinement — creative review, quality control', principle:'The leader who stays composed gives everyone else permission to do the same.', outcome:'Clients never experience chaos. Every interaction communicates control.' },
-  { id:5, day:'Friday', name:'VISION', color:'#D4AF37', tagline:'The ability to see what others cannot yet see.', behavior:'Narrative outlines, strategic planning, future-state mapping.', symbol:'City skyline at dawn', phase:'Narrative alignment — story arc review, messaging strategy', principle:'Vision is not prediction. It is the discipline of seeing clearly while others react.', outcome:'Clients get direction, not just content.' },
-  { id:6, day:'Saturday', name:'PROGRESS', color:'#B8962E', tagline:'Small steps repeated daily create extraordinary outcomes.', behavior:'Revisions completed, performance improvements measured, systems refined.', symbol:'Notebook pages filling up', phase:'Iteration and improvement — A/B testing, analytics review', principle:'Progress is proof. It converts belief from philosophy into results.', outcome:'Measurable improvement on every cycle. Compounding returns over time.' },
-  { id:7, day:'Sunday', name:'AUTHORITY', color:'#C9A24A', tagline:'Leadership earned through execution and results.', behavior:'Project releases, content publication, audience reach expansion.', symbol:'Closing a presentation with conviction', phase:'Release and impact — final delivery, launch, distribution', principle:'Authority feeds the next cycle of Discipline. The loop never stops.', outcome:'Finished work becomes proof that the belief-driven approach works.' }
+  { id:1, day:'Monday',    name:'DISCIPLINE',       color:'#2563EB', bg:'#EFF6FF', tagline:'Foundation of belief — structure over chaos.', behavior:'Research, planning, daily routines executed without shortcuts.', symbol:'Pen writing in a quiet workspace', phase:'Pre-production — research, script lock-in, project setup', principle:'Leaders who show up consistently earn trust before they earn attention.', outcome:'Projects launch on time with zero excuses.' },
+  { id:2, day:'Tuesday',   name:'MOMENTUM',         color:'#EA580C', bg:'#FFF7ED', tagline:'Progress compounds through action.', behavior:'Rapid ideation, project starts, prototypes generated.', symbol:'Footsteps advancing forward', phase:'Concept development — storyboards, shot lists, creative direction locked', principle:'Momentum separates builders from dreamers.', outcome:'Concepts move from idea to direction within days, not weeks.' },
+  { id:3, day:'Wednesday', name:'CRAFT',            color:'#059669', bg:'#ECFDF5', tagline:'Excellence through obsessive attention to detail.', behavior:'Production time, editing sessions, creative revisions. Every frame matters.', symbol:'Editing timeline on screen', phase:'Production — filming, editing, sound design, visual effects', principle:'Craft is the visible proof of invisible discipline.', outcome:'Deliverables exceed expectations because every detail is intentional.' },
+  { id:4, day:'Thursday',  name:'CALM CONFIDENCE', color:'#7C3AED', bg:'#F5F3FF', tagline:'True authority moves with composure.', behavior:'Decision checkpoints, team collaboration, leadership under pressure.', symbol:'Steady breath — composed stillness', phase:'Direction and refinement — creative review, quality control', principle:'The leader who stays composed gives everyone else permission to do the same.', outcome:'Clients never experience chaos. Every interaction communicates control.' },
+  { id:5, day:'Friday',    name:'VISION',           color:'#0891B2', bg:'#ECFEFF', tagline:'The ability to see what others cannot yet see.', behavior:'Narrative outlines, strategic planning, future-state mapping.', symbol:'City skyline at dawn', phase:'Narrative alignment — story arc review, messaging strategy', principle:'Vision is not prediction. It is the discipline of seeing clearly while others react.', outcome:'Clients get direction, not just content.' },
+  { id:6, day:'Saturday',  name:'PROGRESS',         color:'#DC2626', bg:'#FEF2F2', tagline:'Small steps repeated daily create extraordinary outcomes.', behavior:'Revisions completed, performance improvements measured, systems refined.', symbol:'Notebook pages filling up', phase:'Iteration and improvement — A/B testing, analytics review', principle:'Progress is proof. It converts belief from philosophy into results.', outcome:'Measurable improvement on every cycle. Compounding returns over time.' },
+  { id:7, day:'Sunday',    name:'AUTHORITY',        color:'#D97706', bg:'#FFFBEB', tagline:'Leadership earned through execution and results.', behavior:'Project releases, content publication, audience reach expansion.', symbol:'Closing a presentation with conviction', phase:'Release and impact — final delivery, launch, distribution', principle:'Authority feeds the next cycle of Discipline. The loop never stops.', outcome:'Finished work becomes proof that the belief-driven approach works.' }
 ]
 
 const CLIP_TYPES = ['Offer/Promo','Brand Presence','Booking Promo','Recruitment Ad','Testimonial','Educational']
-const PLATFORMS = ['Instagram Reels','TikTok','YouTube Shorts','Facebook','LinkedIn','X/Twitter']
+const PLATFORMS  = ['Instagram Reels','TikTok','YouTube Shorts','Facebook','LinkedIn','X/Twitter']
 
 function getTodaySignal() {
   const day = new Date().getDay()
@@ -35,56 +35,189 @@ const INITIAL_STATE = {
 
 function reducer(state, action) {
   switch(action.type) {
-    case 'LOAD': return { ...state, ...action.payload }
-    case 'ONBOARD': return { ...state, businessName:action.name, businessType:action.btype, email:action.email, onboarded:true }
+    case 'LOAD':       return { ...state, ...action.payload }
+    case 'ONBOARD':    return { ...state, businessName:action.name, businessType:action.btype, email:action.email, onboarded:true }
     case 'ADD_CLIP': {
       const newCounts = { ...state.signalCounts, [action.clip.signalId]:(state.signalCounts[action.clip.signalId]||0)+1 }
       return { ...state, clips:[action.clip,...state.clips], signalCounts:newCounts }
     }
     case 'REMOVE_CLIP': return { ...state, clips:state.clips.filter(c=>c.id!==action.id) }
-    case 'RESET': return INITIAL_STATE
-    default: return state
+    case 'RESET':       return INITIAL_STATE
+    default:            return state
   }
 }
 
-const G = '#C9A24A'
-const BG = '#0B0B0B'
+// ── DESIGN TOKENS ────────────────────────────────────────────
+const BLUE   = '#2563EB'
+const BG     = '#FFFFFF'
+const SURFACE= '#F8FAFC'
+const BORDER = '#E2E8F0'
+const TEXT   = '#0F172A'
+const MUTED  = '#64748B'
+const LIGHT  = '#CBD5E1'
 
 const s = {
-  app: { minHeight:'100vh', background:BG, color:'#F5F0E8', fontFamily:"'Georgia', serif" },
-  nav: { background:'#0f0f0f', borderBottom:'1px solid #1a1a1a', padding:'0 24px', display:'flex', alignItems:'center', justifyContent:'space-between', height:60, position:'sticky', top:0, zIndex:100 },
-  navLogo: { fontSize:13, letterSpacing:3, color:G, fontFamily:'Georgia, serif', fontWeight:'bold' },
-  main: { maxWidth:960, margin:'0 auto', padding:'32px 24px' },
-  card: { background:'#111', border:'1px solid #1e1e1e', borderRadius:12, padding:24, marginBottom:20 },
-  goldCard: { background:'#0f0e0a', border:'1px solid #2a2010', borderRadius:12, padding:24, marginBottom:20 },
-  label: { display:'block', fontSize:11, letterSpacing:2, color:'#666', marginBottom:8, textTransform:'uppercase' },
-  input: { width:'100%', background:'#0f0f0f', border:'1px solid #2a2a2a', borderRadius:8, padding:'12px 14px', color:'#F5F0E8', fontSize:14, fontFamily:'Georgia, serif', boxSizing:'border-box', outline:'none' },
-  inputError: { width:'100%', background:'#0f0f0f', border:'1px solid #C9A24A', borderRadius:8, padding:'12px 14px', color:'#F5F0E8', fontSize:14, fontFamily:'Georgia, serif', boxSizing:'border-box', outline:'none' },
+  app: {
+    minHeight: '100vh',
+    background: SURFACE,
+    color: TEXT,
+    fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif"
+  },
+  nav: {
+    background: BG,
+    borderBottom: `1px solid ${BORDER}`,
+    padding: '0 28px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 64,
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
+    boxShadow: '0 1px 8px rgba(0,0,0,0.06)'
+  },
+  navLogo: {
+    fontSize: 13,
+    letterSpacing: 3,
+    color: BLUE,
+    fontWeight: 800
+  },
+  main: { maxWidth: 960, margin: '0 auto', padding: '32px 24px' },
+
+  card: {
+    background: BG,
+    border: `1px solid ${BORDER}`,
+    borderRadius: 14,
+    padding: 24,
+    marginBottom: 20,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+  },
+  heroCard: {
+    background: 'linear-gradient(135deg, #1D4ED8 0%, #0891B2 100%)',
+    borderRadius: 18,
+    padding: 36,
+    marginBottom: 24,
+    color: '#FFFFFF'
+  },
+
+  label: {
+    display: 'block',
+    fontSize: 11,
+    letterSpacing: 2,
+    color: MUTED,
+    marginBottom: 8,
+    textTransform: 'uppercase',
+    fontWeight: 600
+  },
+  input: {
+    width: '100%',
+    background: SURFACE,
+    border: `1.5px solid ${BORDER}`,
+    borderRadius: 10,
+    padding: '13px 16px',
+    color: TEXT,
+    fontSize: 15,
+    fontFamily: 'inherit',
+    boxSizing: 'border-box',
+    outline: 'none',
+    transition: 'border-color 0.2s'
+  },
+  inputError: {
+    width: '100%',
+    background: '#FEF2F2',
+    border: '1.5px solid #EF4444',
+    borderRadius: 10,
+    padding: '13px 16px',
+    color: TEXT,
+    fontSize: 15,
+    fontFamily: 'inherit',
+    boxSizing: 'border-box',
+    outline: 'none'
+  },
+  textarea: {
+    width: '100%',
+    background: SURFACE,
+    border: `1.5px solid ${BORDER}`,
+    borderRadius: 10,
+    padding: '13px 16px',
+    color: TEXT,
+    fontSize: 14,
+    fontFamily: 'inherit',
+    boxSizing: 'border-box',
+    outline: 'none',
+    resize: 'vertical',
+    minHeight: 100
+  },
+
   btn: (variant='primary', disabled=false) => ({
-    padding: variant==='sm' ? '8px 16px' : '12px 24px',
-    borderRadius:8, border: variant==='outline' ? `1px solid ${G}` : 'none',
+    padding: variant==='sm' ? '8px 16px' : '13px 26px',
+    borderRadius: 10,
+    border: variant==='outline' ? `1.5px solid ${BLUE}` : 'none',
     cursor: disabled ? 'not-allowed' : 'pointer',
-    fontSize: variant==='sm' ? 11 : 13, letterSpacing:1,
-    fontFamily:'Georgia, serif',
-    background: disabled ? '#1a1a1a' : variant==='primary' ? G : variant==='outline' ? 'transparent' : '#1a1a1a',
-    color: disabled ? '#444' : variant==='primary' ? BG : G,
-    fontWeight: variant==='primary' ? 'bold' : 'normal',
-    opacity: disabled ? 0.6 : 1,
-    transition:'all 0.2s'
+    fontSize: variant==='sm' ? 11 : 13,
+    letterSpacing: 0.5,
+    fontFamily: 'inherit',
+    fontWeight: 700,
+    background: disabled ? '#E2E8F0'
+      : variant==='primary' ? BLUE
+      : variant==='outline' ? 'transparent'
+      : SURFACE,
+    color: disabled ? LIGHT
+      : variant==='primary' ? '#FFFFFF'
+      : variant==='outline' ? BLUE
+      : MUTED,
+    opacity: disabled ? 0.7 : 1,
+    transition: 'all 0.18s',
+    boxShadow: variant==='primary' && !disabled ? '0 2px 8px rgba(37,99,235,0.25)' : 'none'
   }),
-  tag: { display:'inline-block', padding:'4px 10px', borderRadius:20, background:'#1a1a1a', border:'1px solid #2a2a2a', fontSize:11, color:'#888', marginRight:6, marginBottom:4 },
-  textarea: { width:'100%', background:'#0f0f0f', border:'1px solid #2a2a2a', borderRadius:8, padding:'12px 14px', color:'#F5F0E8', fontSize:13, fontFamily:'Georgia, serif', boxSizing:'border-box', outline:'none', resize:'vertical', minHeight:100 },
-  signalChip: (active, color) => ({
-    padding:'10px 14px', borderRadius:8, cursor:'pointer',
-    border: active ? `1px solid ${color}` : '1px solid #1e1e1e',
-    background: active ? '#0f0e0a' : '#0f0f0f',
-    transition:'all 0.2s', textAlign:'center'
+
+  tag: {
+    display: 'inline-block',
+    padding: '4px 12px',
+    borderRadius: 20,
+    background: '#EFF6FF',
+    border: `1px solid #BFDBFE`,
+    fontSize: 11,
+    color: BLUE,
+    marginRight: 6,
+    marginBottom: 4,
+    fontWeight: 600
+  },
+
+  signalChip: (active, color, bg) => ({
+    padding: '12px 14px',
+    borderRadius: 12,
+    cursor: 'pointer',
+    border: active ? `2px solid ${color}` : `1.5px solid ${BORDER}`,
+    background: active ? bg : BG,
+    transition: 'all 0.18s',
+    textAlign: 'center',
+    boxShadow: active ? `0 2px 8px ${color}30` : '0 1px 3px rgba(0,0,0,0.04)'
   }),
-  bar: (pct, color) => ({ height:6, borderRadius:3, background:`linear-gradient(90deg, ${color} ${pct}%, #1e1e1e ${pct}%)`, marginTop:6 }),
-  tab: (active) => ({ padding:'8px 20px', borderRadius:6, border:'none', cursor:'pointer', fontSize:13, letterSpacing:1, fontFamily:'Georgia, serif', background:active ? G : 'transparent', color:active ? BG : '#888', transition:'all 0.2s' }),
+
+  bar: (pct, color) => ({
+    height: 7,
+    borderRadius: 4,
+    background: `linear-gradient(90deg, ${color} ${pct}%, ${BORDER} ${pct}%)`,
+    marginTop: 6
+  }),
+
+  tab: (active) => ({
+    padding: '8px 20px',
+    borderRadius: 8,
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: 12,
+    letterSpacing: 1,
+    fontFamily: 'inherit',
+    fontWeight: 700,
+    background: active ? BLUE : 'transparent',
+    color: active ? '#FFFFFF' : MUTED,
+    transition: 'all 0.18s'
+  }),
 }
 
-// ── LANDING PAGE ────────────────────────────────────────────
+// ── LANDING PAGE ─────────────────────────────────────────────
 function Landing({ onStart }) {
   const today = getTodaySignal()
   const features = [
@@ -94,45 +227,50 @@ function Landing({ onStart }) {
     { icon:'🎯', title:'7-Signal Framework', desc:"Built on Brand Media Group's Seven Signals Method™ — the belief-driven content system." },
   ]
   return (
-    <div style={{ minHeight:'100vh', background:BG }}>
+    <div style={{ minHeight:'100vh', background:'#F8FAFC' }}>
+
       {/* NAV */}
       <nav style={s.nav}>
         <div style={s.navLogo}>BMG AUTHORITY ENGINE™</div>
         <a href="https://brandmediagroup.co" target="_blank" rel="noreferrer"
-          style={{ fontSize:11, letterSpacing:1, color:'#666', textDecoration:'none' }}>brandmediagroup.co</a>
+          style={{ fontSize:12, letterSpacing:1, color:MUTED, textDecoration:'none', fontWeight:600 }}>
+          brandmediagroup.co
+        </a>
       </nav>
 
       {/* HERO */}
       <div style={{ maxWidth:800, margin:'0 auto', padding:'80px 24px 60px', textAlign:'center' }}>
-        <div style={{ display:'inline-block', padding:'6px 18px', borderRadius:20, border:`1px solid ${G}`, fontSize:11, letterSpacing:3, color:G, marginBottom:32 }}>
+        <div style={{ display:'inline-block', padding:'6px 20px', borderRadius:20, background:'#EFF6FF', border:`1px solid #BFDBFE`, fontSize:11, letterSpacing:3, color:BLUE, marginBottom:32, fontWeight:700 }}>
           FREE CONTENT BRIEF GENERATOR
         </div>
-        <h1 style={{ fontSize:52, fontWeight:'normal', color:'#F5F0E8', lineHeight:1.15, marginBottom:20 }}>
-          Generate your<br/><span style={{ color:G }}>7-Signal content brief</span><br/>in 60 seconds.
+        <h1 style={{ fontSize:54, fontWeight:800, color:TEXT, lineHeight:1.1, marginBottom:20, letterSpacing:-1 }}>
+          Generate your<br/><span style={{ color:BLUE }}>7-Signal content brief</span><br/>in 60 seconds.
         </h1>
-        <p style={{ fontSize:18, color:'#888', lineHeight:1.7, marginBottom:16, maxWidth:560, margin:'0 auto 16px' }}>
-          Tell us your business. Pick your signal. Get a complete production brief — hook, script, visual direction, caption, and CTA — ready to hand to OpenArt or any video tool.
+        <p style={{ fontSize:18, color:MUTED, lineHeight:1.7, marginBottom:16, maxWidth:560, margin:'0 auto 16px' }}>
+          Tell us your business. Pick your signal. Get a complete production brief — hook, script, visual direction, caption, and CTA — ready to hand to any video tool.
         </p>
-        <p style={{ fontSize:14, color:'#555', marginBottom:48 }}>
+        <p style={{ fontSize:14, color:LIGHT, marginBottom:48, fontWeight:500 }}>
           Free. No account. No pitch. Just a brief that works.
         </p>
-        <button style={{ ...s.btn('primary'), padding:'18px 48px', fontSize:15, letterSpacing:2, borderRadius:10 }} onClick={onStart}>
+        <button
+          style={{ ...s.btn('primary'), padding:'18px 52px', fontSize:16, letterSpacing:1, borderRadius:12, boxShadow:'0 4px 20px rgba(37,99,235,0.30)' }}
+          onClick={onStart}>
           GET MY FREE BRIEF →
         </button>
-        <p style={{ fontSize:12, color:'#444', marginTop:20, letterSpacing:1 }}>
+        <p style={{ fontSize:12, color:LIGHT, marginTop:20, letterSpacing:1 }}>
           Used by sports, entertainment, fashion, and AI ops brands
         </p>
       </div>
 
       {/* TODAY'S SIGNAL BANNER */}
       <div style={{ maxWidth:800, margin:'0 auto 60px', padding:'0 24px' }}>
-        <div style={{ background:'#0f0e0a', border:`1px solid #2a2010`, borderRadius:12, padding:'20px 28px', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
+        <div style={{ background:today.bg, border:`1.5px solid ${today.color}30`, borderRadius:16, padding:'22px 28px', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12, boxShadow:`0 2px 12px ${today.color}15` }}>
           <div>
-            <div style={{ fontSize:11, letterSpacing:3, color:'#555', marginBottom:6 }}>TODAY — {getDayName().toUpperCase()}</div>
-            <div style={{ fontSize:18, color:today.color, fontWeight:'bold', letterSpacing:1 }}>Signal {today.id}: {today.name}</div>
-            <div style={{ fontSize:13, color:'#888', marginTop:4 }}>{today.tagline}</div>
+            <div style={{ fontSize:11, letterSpacing:3, color:MUTED, marginBottom:6, fontWeight:600 }}>TODAY — {getDayName().toUpperCase()}</div>
+            <div style={{ fontSize:20, color:today.color, fontWeight:800, letterSpacing:0.5 }}>Signal {today.id}: {today.name}</div>
+            <div style={{ fontSize:14, color:MUTED, marginTop:5 }}>{today.tagline}</div>
           </div>
-          <button style={{ ...s.btn('outline'), padding:'10px 22px', fontSize:12 }} onClick={onStart}>
+          <button style={{ ...s.btn('outline'), padding:'10px 22px', fontSize:12, borderColor:today.color, color:today.color }} onClick={onStart}>
             Create today's brief →
           </button>
         </div>
@@ -140,13 +278,13 @@ function Landing({ onStart }) {
 
       {/* FEATURES */}
       <div style={{ maxWidth:800, margin:'0 auto 60px', padding:'0 24px' }}>
-        <div style={{ textAlign:'center', fontSize:11, letterSpacing:3, color:'#555', marginBottom:32 }}>WHAT YOU GET</div>
+        <div style={{ textAlign:'center', fontSize:11, letterSpacing:3, color:MUTED, marginBottom:32, fontWeight:700 }}>WHAT YOU GET</div>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
           {features.map((f,i) => (
-            <div key={i} style={s.card}>
-              <div style={{ fontSize:24, marginBottom:12 }}>{f.icon}</div>
-              <div style={{ fontSize:14, color:'#F5F0E8', fontWeight:'bold', marginBottom:8 }}>{f.title}</div>
-              <div style={{ fontSize:13, color:'#666', lineHeight:1.6 }}>{f.desc}</div>
+            <div key={i} style={{ ...s.card, transition:'transform 0.2s' }}>
+              <div style={{ fontSize:28, marginBottom:12 }}>{f.icon}</div>
+              <div style={{ fontSize:15, color:TEXT, fontWeight:700, marginBottom:8 }}>{f.title}</div>
+              <div style={{ fontSize:13, color:MUTED, lineHeight:1.7 }}>{f.desc}</div>
             </div>
           ))}
         </div>
@@ -154,14 +292,16 @@ function Landing({ onStart }) {
 
       {/* SIGNALS PREVIEW */}
       <div style={{ maxWidth:800, margin:'0 auto 60px', padding:'0 24px' }}>
-        <div style={{ textAlign:'center', fontSize:11, letterSpacing:3, color:'#555', marginBottom:24 }}>THE 7 SIGNALS</div>
+        <div style={{ textAlign:'center', fontSize:11, letterSpacing:3, color:MUTED, marginBottom:24, fontWeight:700 }}>THE 7 SIGNALS</div>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
           {SIGNALS.map(sig => (
-            <div key={sig.id} style={{ ...s.card, padding:'16px 18px', marginBottom:0, display:'flex', alignItems:'center', gap:14 }}>
-              <div style={{ fontSize:11, color:sig.color, fontWeight:'bold', minWidth:20 }}>{sig.id}</div>
+            <div key={sig.id} style={{ ...s.card, padding:'16px 20px', marginBottom:0, display:'flex', alignItems:'center', gap:14 }}>
+              <div style={{ width:36, height:36, borderRadius:10, background:sig.bg, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                <span style={{ fontSize:13, color:sig.color, fontWeight:800 }}>{sig.id}</span>
+              </div>
               <div>
-                <div style={{ fontSize:12, color:'#F5F0E8', letterSpacing:1, marginBottom:3 }}>{sig.name}</div>
-                <div style={{ fontSize:11, color:'#555' }}>{sig.day}</div>
+                <div style={{ fontSize:13, color:TEXT, fontWeight:700, letterSpacing:0.5, marginBottom:2 }}>{sig.name}</div>
+                <div style={{ fontSize:11, color:MUTED }}>{sig.day}</div>
               </div>
             </div>
           ))}
@@ -170,167 +310,202 @@ function Landing({ onStart }) {
 
       {/* BOTTOM CTA */}
       <div style={{ maxWidth:800, margin:'0 auto', padding:'0 24px 80px', textAlign:'center' }}>
-        <div style={{ background:'#0f0f0f', borderRadius:16, border:'1px solid #1e1e1e', padding:'48px 32px' }}>
-          <div style={{ fontSize:11, letterSpacing:3, color:'#555', marginBottom:16 }}>READY?</div>
-          <h2 style={{ fontSize:28, color:'#F5F0E8', fontWeight:'normal', marginBottom:12 }}>Your first brief takes 60 seconds.</h2>
-          <p style={{ color:'#666', fontSize:14, marginBottom:32 }}>No signup required. No credit card. Just your business name and one click.</p>
-          <button style={{ ...s.btn('primary'), padding:'16px 44px', fontSize:14, letterSpacing:2 }} onClick={onStart}>
+        <div style={{ background:'linear-gradient(135deg, #1D4ED8 0%, #0891B2 100%)', borderRadius:20, padding:'52px 32px', boxShadow:'0 8px 32px rgba(37,99,235,0.25)' }}>
+          <div style={{ fontSize:11, letterSpacing:3, color:'rgba(255,255,255,0.6)', marginBottom:16, fontWeight:700 }}>READY?</div>
+          <h2 style={{ fontSize:32, color:'#FFFFFF', fontWeight:800, marginBottom:12, letterSpacing:-0.5 }}>Your first brief takes 60 seconds.</h2>
+          <p style={{ color:'rgba(255,255,255,0.7)', fontSize:15, marginBottom:36 }}>No signup required. No credit card. Just your business name and one click.</p>
+          <button
+            style={{ background:'#FFFFFF', color:BLUE, border:'none', borderRadius:12, padding:'16px 48px', fontSize:15, letterSpacing:1, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 16px rgba(0,0,0,0.15)' }}
+            onClick={onStart}>
             START NOW →
           </button>
         </div>
       </div>
 
       {/* FOOTER */}
-      <div style={{ borderTop:'1px solid #1a1a1a', padding:'24px', textAlign:'center' }}>
-        <p style={{ color:'#444', fontSize:11, letterSpacing:2, margin:0 }}>
+      <div style={{ borderTop:`1px solid ${BORDER}`, padding:'28px 24px', textAlign:'center', background:BG }}>
+        <p style={{ color:LIGHT, fontSize:11, letterSpacing:2, margin:0, fontWeight:600 }}>
           BRAND MEDIA GROUP — EVERY PROJECT BEGINS WITH BELIEF —{' '}
-          <a href="https://brandmediagroup.co" style={{ color:G }}>BRANDMEDIAGROUP.CO</a>
+          <a href="https://brandmediagroup.co" style={{ color:BLUE, textDecoration:'none' }}>BRANDMEDIAGROUP.CO</a>
         </p>
       </div>
     </div>
   )
 }
 
-// ── ONBOARDING ──────────────────────────────────────────────
+// ── ZAPIER WEBHOOK ───────────────────────────────────────────
+const ZAPIER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/REPLACE_WITH_YOUR_ZAP_ID'
+
+// ── ONBOARDING ───────────────────────────────────────────────
 function Onboarding({ dispatch, onBack }) {
-  const [name, setName] = useState('')
-  const [btype, setBtype] = useState('')
-  const [email, setEmail] = useState('')
+  const [name,   setName]   = useState('')
+  const [btype,  setBtype]  = useState('')
+  const [email,  setEmail]  = useState('')
   const [errors, setErrors] = useState({})
 
   const validate = () => {
     const e = {}
-    if (!name.trim()) e.name = true
-    if (!btype.trim()) e.btype = true
+    if (!name.trim())                        e.name  = true
+    if (!btype.trim())                       e.btype = true
     if (!email.trim() || !email.includes('@')) e.email = true
     setErrors(e)
     return Object.keys(e).length === 0
   }
 
   const submit = () => {
-    if (validate()) dispatch({ type:'ONBOARD', name:name.trim(), btype:btype.trim(), email:email.trim() })
+    if (validate()) {
+      fetch(ZAPIER_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(), email: email.trim(),
+          businessType: btype.trim(),
+          source: 'Authority Engine',
+          date: new Date().toISOString()
+        })
+      }).catch(() => {})
+      dispatch({ type:'ONBOARD', name:name.trim(), btype:btype.trim(), email:email.trim() })
+    }
   }
 
   return (
-    <div style={{ minHeight:'100vh', background:BG, display:'flex', alignItems:'center', justifyContent:'center', padding:24 }}>
+    <div style={{ minHeight:'100vh', background:SURFACE, display:'flex', alignItems:'center', justifyContent:'center', padding:24 }}>
       <div style={{ maxWidth:480, width:'100%' }}>
-        <button onClick={onBack} style={{ background:'none', border:'none', color:'#555', cursor:'pointer', fontSize:12, letterSpacing:1, marginBottom:32, padding:0 }}>
+        <button onClick={onBack} style={{ background:'none', border:'none', color:MUTED, cursor:'pointer', fontSize:13, marginBottom:32, padding:0, fontWeight:600, display:'flex', alignItems:'center', gap:6 }}>
           ← Back
         </button>
-        <div style={{ textAlign:'center', marginBottom:40 }}>
-          <div style={{ fontSize:11, letterSpacing:4, color:G, marginBottom:16 }}>BRAND MEDIA GROUP</div>
-          <h1 style={{ fontSize:36, color:'#F5F0E8', fontWeight:'normal', marginBottom:12 }}>Authority Engine™</h1>
-          <p style={{ color:'#666', fontSize:15, lineHeight:1.6 }}>Tell us about your business and we'll generate a complete content brief built around your Seven Signal.</p>
+
+        {/* Header */}
+        <div style={{ textAlign:'center', marginBottom:36 }}>
+          <div style={{ display:'inline-flex', alignItems:'center', justifyContent:'center', width:56, height:56, borderRadius:16, background:'#EFF6FF', marginBottom:20 }}>
+            <span style={{ fontSize:26 }}>⚡</span>
+          </div>
+          <div style={{ fontSize:11, letterSpacing:4, color:BLUE, marginBottom:12, fontWeight:700 }}>BRAND MEDIA GROUP</div>
+          <h1 style={{ fontSize:34, color:TEXT, fontWeight:800, marginBottom:10, letterSpacing:-0.5 }}>Authority Engine™</h1>
+          <p style={{ color:MUTED, fontSize:15, lineHeight:1.65 }}>Tell us about your business and we'll generate a complete content brief built around your Seven Signal.</p>
         </div>
-        <div style={s.card}>
+
+        {/* Form Card */}
+        <div style={{ ...s.card, padding:32 }}>
           <label style={s.label}>Your Business Name</label>
           <input
             style={{ ...(errors.name ? s.inputError : s.input), marginBottom: errors.name ? 4 : 20 }}
-            value={name} onChange={e=>setName(e.target.value)}
+            value={name} onChange={e => setName(e.target.value)}
             placeholder="e.g. Brand Media Group"
           />
-          {errors.name && <p style={{ color:G, fontSize:11, marginBottom:16, marginTop:0 }}>Required</p>}
+          {errors.name && <p style={{ color:'#EF4444', fontSize:12, marginBottom:16, marginTop:0, fontWeight:600 }}>Required</p>}
 
           <label style={s.label}>Business Type / Industry</label>
           <input
             style={{ ...(errors.btype ? s.inputError : s.input), marginBottom: errors.btype ? 4 : 20 }}
-            value={btype} onChange={e=>setBtype(e.target.value)}
+            value={btype} onChange={e => setBtype(e.target.value)}
             placeholder="e.g. Insurance Agency, Real Estate, Marketing, Restaurant"
           />
-          {errors.btype && <p style={{ color:G, fontSize:11, marginBottom:16, marginTop:0 }}>Required</p>}
+          {errors.btype && <p style={{ color:'#EF4444', fontSize:12, marginBottom:16, marginTop:0, fontWeight:600 }}>Required</p>}
 
           <label style={s.label}>Your Email (we'll send your brief)</label>
           <input
             style={{ ...(errors.email ? s.inputError : s.input), marginBottom: errors.email ? 4 : 28 }}
-            value={email} onChange={e=>setEmail(e.target.value)}
+            value={email} onChange={e => setEmail(e.target.value)}
             placeholder="you@yourbusiness.com" type="email"
           />
-          {errors.email && <p style={{ color:G, fontSize:11, marginBottom:20, marginTop:0 }}>Valid email required</p>}
+          {errors.email && <p style={{ color:'#EF4444', fontSize:12, marginBottom:20, marginTop:0, fontWeight:600 }}>Valid email required</p>}
 
           <button
-            style={{ ...s.btn('primary'), width:'100%', padding:'14px 0' }}
+            style={{ ...s.btn('primary'), width:'100%', padding:'15px 0', fontSize:14, letterSpacing:1, borderRadius:11 }}
             onClick={submit}>
             ENTER THE ENGINE →
           </button>
         </div>
-        <p style={{ textAlign:'center', color:'#333', fontSize:12, marginTop:16, lineHeight:1.6 }}>
+
+        <p style={{ textAlign:'center', color:LIGHT, fontSize:12, marginTop:16, lineHeight:1.6 }}>
           We may follow up to offer a free AI Ops Audit.<br/>No spam. Unsubscribe any time.
         </p>
-        <p style={{ textAlign:'center', color:'#333', fontSize:11, marginTop:8 }}>Every Project Begins With Belief. Signal On.</p>
+        <p style={{ textAlign:'center', color:LIGHT, fontSize:11, marginTop:8, fontWeight:600, letterSpacing:1 }}>
+          Every Project Begins With Belief. Signal On.
+        </p>
       </div>
     </div>
   )
 }
 
-// ── DASHBOARD ───────────────────────────────────────────────
+// ── DASHBOARD ────────────────────────────────────────────────
 function Dashboard({ state, setTab }) {
-  const today = getTodaySignal()
+  const today      = getTodaySignal()
   const totalClips = state.clips.length
-  const maxCount = Math.max(...Object.values(state.signalCounts), 1)
+  const maxCount   = Math.max(...Object.values(state.signalCounts), 1)
   return (
     <div>
-      <div style={s.goldCard}>
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:16 }}>
+      {/* Hero greeting card */}
+      <div style={s.heroCard}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:20 }}>
           <div>
-            <div style={{ fontSize:11, letterSpacing:3, color:'#666', marginBottom:8 }}>TODAY — {getDayName().toUpperCase()}</div>
-            <h1 style={{ fontSize:28, color:'#F5F0E8', fontWeight:'normal', marginBottom:6 }}>{getGreeting()}, {state.businessName}.</h1>
-            <p style={{ color:'#888', fontSize:14, margin:0 }}>Today's signal is <span style={{ color:today.color, fontWeight:'bold' }}>{today.name}</span> — {today.tagline}</p>
+            <div style={{ fontSize:11, letterSpacing:3, color:'rgba(255,255,255,0.6)', marginBottom:10, fontWeight:700 }}>TODAY — {getDayName().toUpperCase()}</div>
+            <h1 style={{ fontSize:30, color:'#FFFFFF', fontWeight:800, marginBottom:6, letterSpacing:-0.5 }}>{getGreeting()}, {state.businessName}.</h1>
+            <p style={{ color:'rgba(255,255,255,0.75)', fontSize:15, margin:0 }}>
+              Today's signal is <strong style={{ color:'#FFFFFF' }}>{today.name}</strong> — {today.tagline}
+            </p>
           </div>
           <div style={{ textAlign:'right' }}>
-            <div style={{ fontSize:36, color:G, fontWeight:'bold' }}>{totalClips}</div>
-            <div style={{ fontSize:11, letterSpacing:2, color:'#666' }}>BRIEFS CREATED</div>
+            <div style={{ fontSize:42, color:'#FFFFFF', fontWeight:800, lineHeight:1 }}>{totalClips}</div>
+            <div style={{ fontSize:11, letterSpacing:2, color:'rgba(255,255,255,0.6)', fontWeight:700 }}>BRIEFS CREATED</div>
           </div>
         </div>
-        <div style={{ marginTop:20, padding:'14px 18px', background:BG, borderRadius:8, borderLeft:`3px solid ${today.color}` }}>
-          <div style={{ fontSize:11, letterSpacing:2, color:'#666', marginBottom:6 }}>TODAY'S PRODUCTION PHASE</div>
-          <div style={{ color:'#F5F0E8', fontSize:13 }}>{today.phase}</div>
-          <div style={{ color:'#888', fontSize:12, marginTop:4, fontStyle:'italic' }}>"{today.principle}"</div>
+        <div style={{ marginTop:22, padding:'16px 20px', background:'rgba(255,255,255,0.12)', borderRadius:10, backdropFilter:'blur(4px)' }}>
+          <div style={{ fontSize:11, letterSpacing:2, color:'rgba(255,255,255,0.6)', marginBottom:6, fontWeight:700 }}>TODAY'S PRODUCTION PHASE</div>
+          <div style={{ color:'#FFFFFF', fontSize:14, fontWeight:600 }}>{today.phase}</div>
+          <div style={{ color:'rgba(255,255,255,0.7)', fontSize:13, marginTop:4, fontStyle:'italic' }}>"{today.principle}"</div>
         </div>
-        <button style={{ ...s.btn('primary'), marginTop:20 }} onClick={()=>setTab('CREATE')}>
+        <button
+          style={{ background:'#FFFFFF', color:BLUE, border:'none', borderRadius:10, padding:'12px 26px', fontSize:13, letterSpacing:0.5, fontWeight:800, cursor:'pointer', marginTop:22, boxShadow:'0 2px 8px rgba(0,0,0,0.12)' }}
+          onClick={() => setTab('CREATE')}>
           CREATE TODAY'S BRIEF →
         </button>
       </div>
 
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, marginBottom:20 }}>
+        {/* Signal Usage */}
         <div style={s.card}>
-          <div style={{ fontSize:11, letterSpacing:2, color:'#666', marginBottom:16 }}>SIGNAL USAGE</div>
+          <div style={{ fontSize:11, letterSpacing:2, color:MUTED, marginBottom:18, fontWeight:700 }}>SIGNAL USAGE</div>
           {SIGNALS.map(sig => {
             const count = state.signalCounts[sig.id] || 0
-            const pct = Math.round((count / maxCount) * 100)
+            const pct   = Math.round((count / maxCount) * 100)
             return (
-              <div key={sig.id} style={{ marginBottom:12 }}>
-                <div style={{ display:'flex', justifyContent:'space-between', fontSize:11 }}>
-                  <span style={{ color:'#888', letterSpacing:1 }}>{sig.name}</span>
-                  <span style={{ color:sig.color }}>{count}</span>
+              <div key={sig.id} style={{ marginBottom:13 }}>
+                <div style={{ display:'flex', justifyContent:'space-between', fontSize:12 }}>
+                  <span style={{ color:MUTED, fontWeight:600 }}>{sig.name}</span>
+                  <span style={{ color:sig.color, fontWeight:700 }}>{count}</span>
                 </div>
                 <div style={s.bar(pct, sig.color)} />
               </div>
             )
           })}
         </div>
+
+        {/* This week */}
         <div style={s.card}>
-          <div style={{ fontSize:11, letterSpacing:2, color:'#666', marginBottom:16 }}>WHAT THIS WEEK NEEDS</div>
+          <div style={{ fontSize:11, letterSpacing:2, color:MUTED, marginBottom:18, fontWeight:700 }}>THIS WEEK'S SIGNALS</div>
           {SIGNALS.map(sig => (
-            <div key={sig.id} style={{ padding:'8px 0', borderBottom:'1px solid #1a1a1a', display:'flex', alignItems:'center', gap:10 }}>
-              <div style={{ width:6, height:6, borderRadius:'50%', background:sig.color, flexShrink:0 }} />
+            <div key={sig.id} style={{ padding:'9px 0', borderBottom:`1px solid ${BORDER}`, display:'flex', alignItems:'center', gap:10 }}>
+              <div style={{ width:8, height:8, borderRadius:'50%', background:sig.color, flexShrink:0 }} />
               <div>
-                <span style={{ fontSize:12, color:'#F5F0E8' }}>{sig.day} — </span>
-                <span style={{ fontSize:12, color:sig.color }}>{sig.name}</span>
+                <span style={{ fontSize:12, color:TEXT, fontWeight:600 }}>{sig.day} — </span>
+                <span style={{ fontSize:12, color:sig.color, fontWeight:700 }}>{sig.name}</span>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* AUDIT CTA CARD */}
-      <div style={{ background:'#0f0e0a', border:`1px solid ${G}`, borderRadius:12, padding:28, marginBottom:20, textAlign:'center' }}>
-        <div style={{ fontSize:11, letterSpacing:3, color:G, marginBottom:12 }}>WANT BMG TO RUN THIS FOR YOU?</div>
-        <h3 style={{ fontSize:20, color:'#F5F0E8', fontWeight:'normal', marginBottom:10 }}>Book your free AI Ops Audit.</h3>
-        <p style={{ color:'#888', fontSize:13, lineHeight:1.6, marginBottom:20, maxWidth:480, margin:'0 auto 20px' }}>
+      {/* Audit CTA Card */}
+      <div style={{ background:'linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%)', border:`none`, borderRadius:16, padding:32, marginBottom:20, textAlign:'center', boxShadow:'0 4px 20px rgba(0,0,0,0.12)' }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:'#7DD3FC', marginBottom:12, fontWeight:700 }}>WANT BMG TO RUN THIS FOR YOU?</div>
+        <h3 style={{ fontSize:22, color:'#FFFFFF', fontWeight:800, marginBottom:10, letterSpacing:-0.3 }}>Book your free AI Ops Audit.</h3>
+        <p style={{ color:'rgba(255,255,255,0.7)', fontSize:14, lineHeight:1.7, marginBottom:24, maxWidth:480, margin:'0 auto 24px' }}>
           We'll review your current workflow and show you exactly what an AI-powered operations system would look like for your specific business. 15 minutes. No pitch. Just signal.
         </p>
         <a href="https://brandmediagroup.co" target="_blank" rel="noreferrer"
-          style={{ ...s.btn('primary'), display:'inline-block', textDecoration:'none', padding:'12px 32px' }}>
+          style={{ background:BLUE, color:'#FFFFFF', textDecoration:'none', display:'inline-block', borderRadius:10, padding:'13px 32px', fontSize:13, letterSpacing:0.5, fontWeight:800, boxShadow:'0 2px 12px rgba(37,99,235,0.35)' }}>
           BOOK FREE AUDIT → brandmediagroup.co
         </a>
       </div>
@@ -338,26 +513,21 @@ function Dashboard({ state, setTab }) {
   )
 }
 
-// ── GENERATOR ───────────────────────────────────────────────
+// ── GENERATOR ────────────────────────────────────────────────
 function Generator({ state, dispatch }) {
-  const [step, setStep] = useState(1)
+  const [step,           setStep]           = useState(1)
   const [selectedSignal, setSelectedSignal] = useState(null)
-  const [clipType, setClipType] = useState('')
-  const [title, setTitle] = useState('')
-  const [topic, setTopic] = useState('')
-  const [platforms, setPlatforms] = useState([])
-  const [generating, setGenerating] = useState(false)
-  const [result, setResult] = useState(null)
-  const [shakeNext, setShakeNext] = useState(false)
+  const [clipType,       setClipType]       = useState('')
+  const [title,          setTitle]          = useState('')
+  const [topic,          setTopic]          = useState('')
+  const [platforms,      setPlatforms]      = useState([])
+  const [generating,     setGenerating]     = useState(false)
+  const [result,         setResult]         = useState(null)
+  const [shakeNext,      setShakeNext]      = useState(false)
 
-  const nudge = () => {
-    setShakeNext(true)
-    setTimeout(()=>setShakeNext(false), 600)
-  }
-
+  const nudge = () => { setShakeNext(true); setTimeout(()=>setShakeNext(false), 600) }
   const handleNext1 = () => { if (selectedSignal) setStep(2); else nudge() }
-  const handleNext2 = () => { if (clipType) setStep(3); else nudge() }
-
+  const handleNext2 = () => { if (clipType)       setStep(3); else nudge() }
   const togglePlatform = (p) => setPlatforms(prev => prev.includes(p) ? prev.filter(x=>x!==p) : [...prev, p])
 
   const generate = () => {
@@ -369,35 +539,35 @@ function Generator({ state, dispatch }) {
         'Offer/Promo': {
           hook:`This is what ${state.businessType} looks like when it's done right.`,
           voiceover:`At ${state.businessName}, we don't just promise results — we build the system that delivers them. Signal ${sig.id}: ${sig.name}. ${sig.outcome} If you're ready to stop guessing and start building, let's talk.`,
-          visuals:`${sig.symbol}. Cinematic shot — minimal movement, dramatic lighting, black and gold palette. Text overlay: "${sig.name}" fades in center frame. End tag: "${state.businessName}. Every Project Begins With Belief."`,
+          visuals:`${sig.symbol}. Cinematic shot — minimal movement, dramatic lighting. Text overlay: "${sig.name}" fades in center frame. End tag: "${state.businessName}. Every Project Begins With Belief."`,
           caption:`${sig.tagline}\n\nAt ${state.businessName}, this is how we operate. Not inspiration — infrastructure.\n\n${platforms.map(p=>`#${p.replace('/','').replace(/ /g,'')}`).join(' ')} #SignalOn #${sig.name.replace(/ /g,'')}`,
           cta:`DM "AUDIT" to book your free 15-minute AI Ops review.`
         },
         'Brand Presence': {
           hook:`${sig.name}. Signal ${sig.id} of 7.`,
           voiceover:`${sig.tagline} At ${state.businessName}, ${sig.behavior.toLowerCase()} This is the ${sig.phase.toLowerCase()}. ${sig.principle}`,
-          visuals:`Symbol: ${sig.symbol}. 8–10 second cinematic clip. Slow push-in. Minimal motion. Text: "${sig.name}" — centered, gold on black. End card: "${state.businessName}. Signal On."`,
+          visuals:`Symbol: ${sig.symbol}. 8–10 second cinematic clip. Slow push-in. Minimal motion. Text: "${sig.name}" — centered. End card: "${state.businessName}. Signal On."`,
           caption:`${sig.tagline}\n\n${sig.behavior}\n\nSignal ${sig.id} of the Seven Signals Method™ by ${state.businessName}.\n\n#SevenSignals #${sig.name.replace(/ /g,'')} #SignalOn #BrandMediaGroup`,
           cta:`Follow for all 7 signals this week.`
         },
         'Booking Promo': {
           hook:`Spots are limited. Here's what you get when you book.`,
           voiceover:`${state.businessName} is taking on ${state.businessType} clients who are ready to build real infrastructure. Signal ${sig.id}: ${sig.name}. ${sig.outcome} Book your free audit at brandmediagroup.co.`,
-          visuals:`Calendar or scheduling interface with gold highlight. Close-up of confirmation screen. Text: "Book Now." Cinematic, minimal. Color: black and gold.`,
+          visuals:`Calendar or scheduling interface with accent highlight. Close-up of confirmation screen. Text: "Book Now." Cinematic, minimal.`,
           caption:`We're running free AI Ops Audits for ${state.businessType} businesses this month.\n\n15 minutes. We look at your workflow. You leave with a clear picture of what AI changes for you.\n\nNo pitch. Just signal.\n\nLink in bio → brandmediagroup.co\n\n#FreeAudit #AIops #${state.businessType.replace(/ /g,'')}`,
           cta:`Book your free audit → brandmediagroup.co`
         },
         'Recruitment Ad': {
           hook:`We're building something real. We need people who move with intention.`,
           voiceover:`${state.businessName} operates on the Seven Signals Method™. Every role here runs on ${sig.name.toLowerCase()}. ${sig.tagline} If that's how you work, we should talk.`,
-          visuals:`Office or workspace with intentional energy. Desks, screens, motion. Text: "${sig.name}" — gold. End: "${state.businessName} is hiring." Cinematic.`,
+          visuals:`Office or workspace with intentional energy. Desks, screens, motion. Text: "${sig.name}". End: "${state.businessName} is hiring." Cinematic.`,
           caption:`${state.businessName} is growing.\n\nWe need people who operate on ${sig.name.toLowerCase()}. ${sig.tagline}\n\n${sig.principle}\n\nDM us to learn more.\n\n#Hiring #${sig.name.replace(/ /g,'')} #SignalOn`,
           cta:`DM "JOIN" to start the conversation.`
         },
         'Testimonial': {
           hook:`Here's what changed when they stopped guessing.`,
           voiceover:`Before ${state.businessName}, [Client Name] was [describe the problem]. After building their system on Signal ${sig.id}: ${sig.name}, [describe the result]. ${sig.outcome} This is what belief-driven infrastructure looks like.`,
-          visuals:`Client b-roll or testimonial interview. Cut to results — analytics, screens, moments of clarity. Text overlay: "[Key result]". Gold accent. Professional, grounded.`,
+          visuals:`Client b-roll or testimonial interview. Cut to results — analytics, screens, moments of clarity. Text overlay: "[Key result]". Professional, grounded.`,
           caption:`When you operate on ${sig.name.toLowerCase()}, the results speak.\n\n${sig.principle}\n\nThis is what our clients experience at ${state.businessName}.\n\n#ClientResult #${sig.name.replace(/ /g,'')} #SevenSignals #SignalOn`,
           cta:`Book your free audit to see what's possible for you.`
         },
@@ -410,12 +580,7 @@ function Generator({ state, dispatch }) {
         }
       }
       const template = scripts[clipType] || scripts['Brand Presence']
-      setResult({
-        id:Date.now().toString(), title, topic,
-        signalId:sig.id, signalName:sig.name, clipType, platforms,
-        date:new Date().toLocaleDateString(),
-        ...template
-      })
+      setResult({ id:Date.now().toString(), title, topic, signalId:sig.id, signalName:sig.name, clipType, platforms, date:new Date().toLocaleDateString(), ...template })
       setGenerating(false)
     }, 1800)
   }
@@ -425,13 +590,14 @@ function Generator({ state, dispatch }) {
     setStep(1); setSelectedSignal(null); setClipType(''); setTitle(''); setTopic(''); setPlatforms([]); setResult(null)
   }
 
+  // ── RESULT VIEW ──
   if (result) return (
     <div>
-      <div style={s.goldCard}>
-        <div style={{ fontSize:11, letterSpacing:3, color:G, marginBottom:8 }}>✓ BRIEF GENERATED</div>
-        <h2 style={{ fontSize:22, color:'#F5F0E8', fontWeight:'normal', marginBottom:8 }}>{result.title}</h2>
+      <div style={{ ...s.card, borderLeft:`4px solid #22C55E`, background:'#F0FDF4', borderColor:'#22C55E' }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:'#16A34A', marginBottom:8, fontWeight:700 }}>✓ BRIEF GENERATED</div>
+        <h2 style={{ fontSize:22, color:TEXT, fontWeight:800, marginBottom:10 }}>{result.title}</h2>
         <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-          <span style={s.tag}>Signal {result.signalId}: {result.signalName}</span>
+          <span style={{ ...s.tag, background:SIGNALS.find(s=>s.id===result.signalId)?.bg, borderColor:`${SIGNALS.find(s=>s.id===result.signalId)?.color}40`, color:SIGNALS.find(s=>s.id===result.signalId)?.color }}>Signal {result.signalId}: {result.signalName}</span>
           <span style={s.tag}>{result.clipType}</span>
           {result.platforms.map(p=><span key={p} style={s.tag}>{p}</span>)}
         </div>
@@ -439,8 +605,8 @@ function Generator({ state, dispatch }) {
 
       {[['🎯 HOOK',result.hook],['🎙 VOICEOVER / SCRIPT',result.voiceover],['🎬 VISUAL DIRECTION',result.visuals],['📝 CAPTION',result.caption],['📣 CTA',result.cta]].map(([label,text])=>(
         <div key={label} style={s.card}>
-          <div style={{ fontSize:11, letterSpacing:2, color:'#666', marginBottom:10 }}>{label}</div>
-          <p style={{ color:'#F5F0E8', fontSize:14, lineHeight:1.7, margin:0, whiteSpace:'pre-line' }}>{text}</p>
+          <div style={{ fontSize:11, letterSpacing:2, color:MUTED, marginBottom:10, fontWeight:700 }}>{label}</div>
+          <p style={{ color:TEXT, fontSize:14, lineHeight:1.75, margin:0, whiteSpace:'pre-line' }}>{text}</p>
         </div>
       ))}
 
@@ -449,32 +615,32 @@ function Generator({ state, dispatch }) {
         <button style={s.btn('outline')} onClick={()=>setResult(null)}>REGENERATE</button>
       </div>
 
-      {/* POST-GENERATION AUDIT CTA */}
-      <div style={{ background:'#0f0e0a', border:`1px solid ${G}`, borderRadius:12, padding:32, textAlign:'center' }}>
-        <div style={{ fontSize:11, letterSpacing:3, color:G, marginBottom:12 }}>WANT BMG TO BUILD AND RUN THIS FOR YOU?</div>
-        <h3 style={{ fontSize:22, color:'#F5F0E8', fontWeight:'normal', marginBottom:10 }}>You just generated one brief.<br/>We automate this for your entire business.</h3>
-        <p style={{ color:'#888', fontSize:14, lineHeight:1.7, marginBottom:24, maxWidth:520, margin:'0 auto 24px' }}>
-          Book a free 15-minute AI Ops Audit. We'll review your workflow and show you what a fully automated content and operations system looks like for <strong style={{color:'#F5F0E8'}}>{state.businessName}</strong>. No pitch. Just signal.
+      {/* Post-generation CTA */}
+      <div style={{ background:'linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%)', borderRadius:16, padding:36, textAlign:'center', boxShadow:'0 4px 20px rgba(0,0,0,0.12)' }}>
+        <div style={{ fontSize:11, letterSpacing:3, color:'#7DD3FC', marginBottom:12, fontWeight:700 }}>WANT BMG TO BUILD AND RUN THIS FOR YOU?</div>
+        <h3 style={{ fontSize:24, color:'#FFFFFF', fontWeight:800, marginBottom:10, letterSpacing:-0.3 }}>You just generated one brief.<br/>We automate this for your entire business.</h3>
+        <p style={{ color:'rgba(255,255,255,0.7)', fontSize:14, lineHeight:1.7, marginBottom:28, maxWidth:520, margin:'0 auto 28px' }}>
+          Book a free 15-minute AI Ops Audit. We'll review your workflow and show you what a fully automated content and operations system looks like for <strong style={{color:'#FFFFFF'}}>{state.businessName}</strong>. No pitch. Just signal.
         </p>
         <a href="https://brandmediagroup.co" target="_blank" rel="noreferrer"
-          style={{ ...s.btn('primary'), display:'inline-block', textDecoration:'none', padding:'14px 36px', fontSize:14, letterSpacing:2 }}>
+          style={{ background:BLUE, color:'#FFFFFF', textDecoration:'none', display:'inline-block', borderRadius:10, padding:'15px 40px', fontSize:14, letterSpacing:0.5, fontWeight:800, boxShadow:'0 4px 16px rgba(37,99,235,0.40)' }}>
           BOOK FREE AUDIT → BRANDMEDIAGROUP.CO
         </a>
-        <p style={{ color:'#444', fontSize:11, marginTop:16 }}>15 minutes. Free. No obligation.</p>
+        <p style={{ color:'rgba(255,255,255,0.4)', fontSize:11, marginTop:16 }}>15 minutes. Free. No obligation.</p>
       </div>
     </div>
   )
 
-  // STEP INDICATOR
+  // ── STEP INDICATOR ──
   const StepBar = () => (
     <div style={{ display:'flex', gap:8, marginBottom:28, alignItems:'center' }}>
       {[1,2,3].map(n => (
         <div key={n} style={{ display:'flex', alignItems:'center', gap:8 }}>
-          <div style={{ width:28, height:28, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, background:step>=n ? G : '#1a1a1a', color:step>=n ? BG : '#666', fontWeight:'bold', transition:'all 0.3s' }}>{n}</div>
-          {n<3 && <div style={{ width:40, height:1, background:step>n ? G : '#1e1e1e', transition:'all 0.3s' }} />}
+          <div style={{ width:32, height:32, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:800, background:step>=n ? BLUE : BORDER, color:step>=n ? '#FFFFFF' : MUTED, transition:'all 0.3s', boxShadow:step>=n?`0 2px 8px ${BLUE}30`:'' }}>{n}</div>
+          {n<3 && <div style={{ width:40, height:2, borderRadius:1, background:step>n ? BLUE : BORDER, transition:'all 0.3s' }} />}
         </div>
       ))}
-      <span style={{ color:'#666', fontSize:12, marginLeft:8 }}>
+      <span style={{ color:MUTED, fontSize:13, marginLeft:8, fontWeight:600 }}>
         {step===1?'Select Signal':step===2?'Choose Type':'Clip Details'}
       </span>
     </div>
@@ -484,33 +650,37 @@ function Generator({ state, dispatch }) {
     <div>
       <StepBar />
 
+      {/* STEP 1 */}
       {step === 1 && (
         <div>
-          <div style={{ fontSize:11, letterSpacing:3, color:'#666', marginBottom:20 }}>SELECT YOUR SIGNAL</div>
+          <div style={{ fontSize:11, letterSpacing:3, color:MUTED, marginBottom:20, fontWeight:700 }}>SELECT YOUR SIGNAL</div>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:20 }}>
             {SIGNALS.map(sig => {
               const isToday = sig.day === getDayName()
-              const active = selectedSignal?.id === sig.id
+              const active  = selectedSignal?.id === sig.id
               return (
                 <div key={sig.id}
-                  style={{ ...s.signalChip(active, sig.color), position:'relative' }}
-                  onClick={()=>setSelectedSignal(sig)}>
-                  {isToday && <div style={{ position:'absolute', top:8, right:8, fontSize:10, color:G }}>★ TODAY</div>}
-                  <div style={{ fontSize:10, color:'#666', marginBottom:4 }}>{sig.id} — {sig.day.toUpperCase()}</div>
-                  <div style={{ fontSize:13, color:active ? sig.color : '#F5F0E8', letterSpacing:1, fontWeight:'bold' }}>{sig.name}</div>
-                  <div style={{ fontSize:11, color:'#555', marginTop:4 }}>{sig.symbol}</div>
+                  style={{ ...s.signalChip(active, sig.color, sig.bg), position:'relative' }}
+                  onClick={() => setSelectedSignal(sig)}>
+                  {isToday && <div style={{ position:'absolute', top:8, right:10, fontSize:10, color:sig.color, fontWeight:700 }}>★ TODAY</div>}
+                  <div style={{ fontSize:10, color:MUTED, marginBottom:5, fontWeight:600 }}>{sig.id} — {sig.day.toUpperCase()}</div>
+                  <div style={{ fontSize:13, color:active ? sig.color : TEXT, letterSpacing:0.5, fontWeight:800 }}>{sig.name}</div>
+                  <div style={{ fontSize:11, color:MUTED, marginTop:4 }}>{sig.symbol}</div>
                 </div>
               )
             })}
           </div>
           {selectedSignal && (
-            <div style={{ ...s.card, borderColor:'#2a2010', marginBottom:20 }}>
-              <div style={{ fontSize:13, color:selectedSignal.color, marginBottom:6, fontWeight:'bold' }}>{selectedSignal.name}</div>
-              <p style={{ color:'#888', fontSize:13, lineHeight:1.6, margin:0 }}>{selectedSignal.tagline}<br/><em style={{fontSize:12, marginTop:8, display:'block'}}>"{selectedSignal.principle}"</em></p>
+            <div style={{ ...s.card, borderLeft:`4px solid ${selectedSignal.color}`, background:selectedSignal.bg, marginBottom:20 }}>
+              <div style={{ fontSize:14, color:selectedSignal.color, marginBottom:6, fontWeight:800 }}>{selectedSignal.name}</div>
+              <p style={{ color:MUTED, fontSize:13, lineHeight:1.65, margin:0 }}>
+                {selectedSignal.tagline}<br/>
+                <em style={{fontSize:12, marginTop:8, display:'block', color:selectedSignal.color}}>"{selectedSignal.principle}"</em>
+              </p>
             </div>
           )}
           {shakeNext && !selectedSignal && (
-            <p style={{ color:G, fontSize:12, marginBottom:12, letterSpacing:1 }}>↑ Select a signal to continue</p>
+            <p style={{ color:'#EF4444', fontSize:12, marginBottom:12, fontWeight:600 }}>↑ Select a signal to continue</p>
           )}
           <button style={s.btn('primary', !selectedSignal)} onClick={handleNext1}>
             NEXT: CHOOSE TYPE →
@@ -518,29 +688,31 @@ function Generator({ state, dispatch }) {
         </div>
       )}
 
+      {/* STEP 2 */}
       {step === 2 && (
         <div>
-          <div style={{ fontSize:11, letterSpacing:3, color:'#666', marginBottom:20 }}>SELECT CLIP TYPE</div>
+          <div style={{ fontSize:11, letterSpacing:3, color:MUTED, marginBottom:20, fontWeight:700 }}>SELECT CLIP TYPE</div>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:12, marginBottom:16 }}>
             {CLIP_TYPES.map(t => (
-              <div key={t} style={s.signalChip(clipType===t, G)} onClick={()=>setClipType(t)}>
-                <div style={{ fontSize:13, color:clipType===t ? G : '#F5F0E8' }}>{t}</div>
+              <div key={t} style={s.signalChip(clipType===t, BLUE, '#EFF6FF')} onClick={() => setClipType(t)}>
+                <div style={{ fontSize:13, color:clipType===t ? BLUE : TEXT, fontWeight:clipType===t?700:500 }}>{t}</div>
               </div>
             ))}
           </div>
           {shakeNext && !clipType && (
-            <p style={{ color:G, fontSize:12, marginBottom:12, letterSpacing:1 }}>↑ Select a clip type to continue</p>
+            <p style={{ color:'#EF4444', fontSize:12, marginBottom:12, fontWeight:600 }}>↑ Select a clip type to continue</p>
           )}
           <div style={{ display:'flex', gap:12, marginTop:16 }}>
-            <button style={s.btn('ghost')} onClick={()=>setStep(1)}>← BACK</button>
+            <button style={s.btn('ghost')} onClick={() => setStep(1)}>← BACK</button>
             <button style={s.btn('primary', !clipType)} onClick={handleNext2}>NEXT: DETAILS →</button>
           </div>
         </div>
       )}
 
+      {/* STEP 3 */}
       {step === 3 && (
         <div>
-          <div style={{ fontSize:11, letterSpacing:3, color:'#666', marginBottom:20 }}>CLIP DETAILS</div>
+          <div style={{ fontSize:11, letterSpacing:3, color:MUTED, marginBottom:20, fontWeight:700 }}>CLIP DETAILS</div>
           <label style={s.label}>Clip Title</label>
           <input style={{...s.input, marginBottom:20}} value={title} onChange={e=>setTitle(e.target.value)}
             placeholder={`e.g. ${selectedSignal?.name} — ${state.businessName}`} />
@@ -550,23 +722,24 @@ function Generator({ state, dispatch }) {
           <label style={s.label}>Target Platforms</label>
           <div style={{ display:'flex', flexWrap:'wrap', gap:8, marginBottom:28 }}>
             {PLATFORMS.map(p => (
-              <div key={p} style={{ ...s.signalChip(platforms.includes(p), G), padding:'8px 14px' }} onClick={()=>togglePlatform(p)}>
-                <span style={{ fontSize:12, color:platforms.includes(p) ? G : '#888' }}>{p}</span>
+              <div key={p} style={{ ...s.signalChip(platforms.includes(p), BLUE, '#EFF6FF'), padding:'9px 16px' }} onClick={()=>togglePlatform(p)}>
+                <span style={{ fontSize:12, color:platforms.includes(p) ? BLUE : MUTED, fontWeight:platforms.includes(p)?700:500 }}>{p}</span>
               </div>
             ))}
           </div>
           <div style={{ display:'flex', gap:12 }}>
             <button style={s.btn('ghost')} onClick={()=>setStep(2)}>← BACK</button>
-            <button style={{ ...s.btn('primary', !title||generating), minWidth:180 }}
-              onClick={()=>!generating&&generate()}
+            <button
+              style={{ ...s.btn('primary', !title||generating), minWidth:190 }}
+              onClick={() => !generating && generate()}
               disabled={!title||generating}>
               {generating ? '⟳  GENERATING...' : 'GENERATE BRIEF →'}
             </button>
           </div>
           {generating && (
-            <div style={{ marginTop:24, padding:20, background:'#0f0e0a', borderRadius:8, border:'1px solid #2a2010' }}>
-              <div style={{ fontSize:12, color:G, letterSpacing:2, marginBottom:8 }}>BUILDING YOUR BRIEF...</div>
-              <div style={{ fontSize:13, color:'#666' }}>Applying Signal {selectedSignal?.id}: {selectedSignal?.name} to your {state.businessType} brief.</div>
+            <div style={{ marginTop:24, padding:20, background:'#EFF6FF', borderRadius:12, border:`1px solid #BFDBFE` }}>
+              <div style={{ fontSize:12, color:BLUE, letterSpacing:2, marginBottom:8, fontWeight:700 }}>BUILDING YOUR BRIEF...</div>
+              <div style={{ fontSize:13, color:MUTED }}>Applying Signal {selectedSignal?.id}: {selectedSignal?.name} to your {state.businessType} brief.</div>
             </div>
           )}
         </div>
@@ -575,57 +748,67 @@ function Generator({ state, dispatch }) {
   )
 }
 
-// ── LIBRARY ─────────────────────────────────────────────────
+// ── LIBRARY ──────────────────────────────────────────────────
 function Library({ state, dispatch }) {
-  const [filter, setFilter] = useState('ALL')
+  const [filter,   setFilter]   = useState('ALL')
   const [expanded, setExpanded] = useState(null)
   const filtered = filter==='ALL' ? state.clips : state.clips.filter(c=>c.signalName===filter)
   return (
     <div>
       <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginBottom:24 }}>
         {['ALL',...SIGNALS.map(sig=>sig.name)].map(f=>(
-          <button key={f} style={{...s.btn(filter===f?'primary':'ghost'), padding:'6px 14px', fontSize:11}} onClick={()=>setFilter(f)}>{f}</button>
+          <button key={f}
+            style={{ padding:'7px 16px', borderRadius:8, border:`1.5px solid ${filter===f?BLUE:BORDER}`, cursor:'pointer', fontSize:11, fontFamily:'inherit', fontWeight:700, background:filter===f?BLUE:BG, color:filter===f?'#FFFFFF':MUTED, transition:'all 0.18s' }}
+            onClick={()=>setFilter(f)}>{f}</button>
         ))}
       </div>
       {filtered.length===0 ? (
-        <div style={{ ...s.card, textAlign:'center', padding:40 }}>
-          <p style={{ color:'#666' }}>No briefs yet. Head to CREATE to generate your first one.</p>
+        <div style={{ ...s.card, textAlign:'center', padding:48 }}>
+          <div style={{ fontSize:32, marginBottom:12 }}>📋</div>
+          <p style={{ color:MUTED, fontSize:15, fontWeight:500 }}>No briefs yet. Head to CREATE to generate your first one.</p>
         </div>
-      ) : filtered.map(c=>(
-        <div key={c.id} style={s.card}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', cursor:'pointer' }} onClick={()=>setExpanded(expanded===c.id?null:c.id)}>
-            <div>
-              <div style={{ fontSize:14, color:'#F5F0E8', marginBottom:6 }}>{c.title}</div>
-              <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                <span style={s.tag}>{c.signalName}</span>
-                <span style={s.tag}>{c.clipType}</span>
-                <span style={s.tag}>{c.date}</span>
-              </div>
-            </div>
-            <span style={{ color:'#666', fontSize:18 }}>{expanded===c.id?'−':'+'}</span>
-          </div>
-          {expanded===c.id&&(
-            <div style={{ marginTop:20, paddingTop:20, borderTop:'1px solid #1e1e1e' }}>
-              {[['HOOK',c.hook],['VOICEOVER',c.voiceover],['VISUALS',c.visuals],['CAPTION',c.caption],['CTA',c.cta]].map(([l,t])=>(
-                <div key={l} style={{ marginBottom:16 }}>
-                  <div style={{ fontSize:10, letterSpacing:2, color:'#666', marginBottom:6 }}>{l}</div>
-                  <p style={{ color:'#F5F0E8', fontSize:13, lineHeight:1.6, margin:0, whiteSpace:'pre-line' }}>{t}</p>
+      ) : filtered.map(c => {
+        const sig = SIGNALS.find(sg=>sg.id===c.signalId)
+        return (
+          <div key={c.id} style={s.card}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', cursor:'pointer' }} onClick={()=>setExpanded(expanded===c.id?null:c.id)}>
+              <div>
+                <div style={{ fontSize:15, color:TEXT, marginBottom:7, fontWeight:700 }}>{c.title}</div>
+                <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+                  <span style={{ ...s.tag, background:sig?.bg, borderColor:`${sig?.color}40`, color:sig?.color }}>{c.signalName}</span>
+                  <span style={s.tag}>{c.clipType}</span>
+                  <span style={s.tag}>{c.date}</span>
                 </div>
-              ))}
-              <button style={{...s.btn('ghost'), padding:'6px 14px', fontSize:11, marginTop:8}} onClick={()=>dispatch({type:'REMOVE_CLIP',id:c.id})}>REMOVE</button>
+              </div>
+              <span style={{ color:MUTED, fontSize:20, fontWeight:700 }}>{expanded===c.id?'−':'+'}</span>
             </div>
-          )}
-        </div>
-      ))}
+            {expanded===c.id && (
+              <div style={{ marginTop:20, paddingTop:20, borderTop:`1px solid ${BORDER}` }}>
+                {[['HOOK',c.hook],['VOICEOVER',c.voiceover],['VISUALS',c.visuals],['CAPTION',c.caption],['CTA',c.cta]].map(([l,t])=>(
+                  <div key={l} style={{ marginBottom:18 }}>
+                    <div style={{ fontSize:10, letterSpacing:2, color:MUTED, marginBottom:6, fontWeight:700 }}>{l}</div>
+                    <p style={{ color:TEXT, fontSize:14, lineHeight:1.7, margin:0, whiteSpace:'pre-line' }}>{t}</p>
+                  </div>
+                ))}
+                <button
+                  style={{ padding:'7px 16px', borderRadius:8, border:`1.5px solid #FCA5A5`, cursor:'pointer', fontSize:11, fontFamily:'inherit', fontWeight:700, background:'#FEF2F2', color:'#DC2626', marginTop:8 }}
+                  onClick={()=>dispatch({type:'REMOVE_CLIP',id:c.id})}>
+                  REMOVE
+                </button>
+              </div>
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 }
 
-// ── APP ROOT ────────────────────────────────────────────────
+// ── APP ROOT ─────────────────────────────────────────────────
 export default function AuthorityEngine() {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
-  const [tab, setTab] = useState('DASHBOARD')
-  const [loaded, setLoaded] = useState(false)
+  const [state,       dispatch]      = useReducer(reducer, INITIAL_STATE)
+  const [tab,         setTab]        = useState('DASHBOARD')
+  const [loaded,      setLoaded]     = useState(false)
   const [showLanding, setShowLanding] = useState(false)
 
   useEffect(() => {
@@ -638,9 +821,7 @@ export default function AuthorityEngine() {
       } else {
         setShowLanding(true)
       }
-    } catch(e) {
-      setShowLanding(true)
-    }
+    } catch(e) { setShowLanding(true) }
     setLoaded(true)
   }, [])
 
@@ -650,13 +831,13 @@ export default function AuthorityEngine() {
   }, [state, loaded])
 
   if (!loaded) return (
-    <div style={{ ...s.app, display:'flex', alignItems:'center', justifyContent:'center', height:'100vh' }}>
-      <div style={{ color:G, letterSpacing:3, fontSize:13 }}>LOADING...</div>
+    <div style={{ minHeight:'100vh', background:SURFACE, display:'flex', alignItems:'center', justifyContent:'center' }}>
+      <div style={{ color:BLUE, letterSpacing:3, fontSize:13, fontWeight:700 }}>LOADING...</div>
     </div>
   )
 
   if (showLanding && !state.onboarded) return <Landing onStart={()=>setShowLanding(false)} />
-  if (!state.onboarded) return <Onboarding dispatch={dispatch} onBack={()=>setShowLanding(true)} />
+  if (!state.onboarded)                return <Onboarding dispatch={dispatch} onBack={()=>setShowLanding(true)} />
 
   return (
     <div style={s.app}>
@@ -667,17 +848,17 @@ export default function AuthorityEngine() {
             <button key={t} style={s.tab(tab===t)} onClick={()=>setTab(t)}>{t}</button>
           ))}
         </div>
-        <div style={{ fontSize:11, color:'#444', letterSpacing:1 }}>Signal On.</div>
+        <div style={{ fontSize:11, color:MUTED, letterSpacing:1, fontWeight:700 }}>Signal On.</div>
       </nav>
       <main style={s.main}>
         {tab==='DASHBOARD' && <Dashboard state={state} setTab={setTab} />}
-        {tab==='CREATE' && <Generator state={state} dispatch={dispatch} />}
-        {tab==='LIBRARY' && <Library state={state} dispatch={dispatch} />}
+        {tab==='CREATE'    && <Generator state={state} dispatch={dispatch} />}
+        {tab==='LIBRARY'   && <Library   state={state} dispatch={dispatch} />}
       </main>
-      <footer style={{ borderTop:'1px solid #1a1a1a', padding:'20px 24px', textAlign:'center' }}>
-        <p style={{ color:'#444', fontSize:11, letterSpacing:2, margin:0 }}>
+      <footer style={{ borderTop:`1px solid ${BORDER}`, padding:'24px', textAlign:'center', background:BG }}>
+        <p style={{ color:LIGHT, fontSize:11, letterSpacing:2, margin:0, fontWeight:600 }}>
           BRAND MEDIA GROUP — EVERY PROJECT BEGINS WITH BELIEF —{' '}
-          <a href="https://brandmediagroup.co" style={{ color:G }}>BRANDMEDIAGROUP.CO</a>
+          <a href="https://brandmediagroup.co" style={{ color:BLUE, textDecoration:'none' }}>BRANDMEDIAGROUP.CO</a>
         </p>
       </footer>
     </div>
